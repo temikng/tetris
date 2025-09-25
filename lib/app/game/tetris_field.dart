@@ -1,0 +1,1 @@
+typedef TetrisField = List<List<int>>;
