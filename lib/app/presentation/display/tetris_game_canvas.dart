@@ -9,6 +9,7 @@ import 'package:tetris/app/presentation/const/tetris_colors.dart';
 class TetrisGameCanvas extends StatefulWidget {
   static const defaultColor = filledBrickColor;
 
+  final Function(Size)? onCanvasSizeChanged;
   final TetrisGameParams gameParams;
   final TetrisGameStateData gameStateData;
   final bool isColoredMode;
@@ -20,6 +21,7 @@ class TetrisGameCanvas extends StatefulWidget {
     required this.gameStateData,
     required this.isColoredMode,
     required this.hasBorder,
+    this.onCanvasSizeChanged,
   });
 
   @override
@@ -27,7 +29,22 @@ class TetrisGameCanvas extends StatefulWidget {
 }
 
 class _TetrisGameCanvasState extends State<TetrisGameCanvas> {
-  double blockSize = 20.0;
+  late Size _customPaintSize;
+  double _widgetHeight = 0.0;
+  double _blockSize = 20.0;
+
+  @override
+  void initState() {
+    _calculatePaintSize();
+    super.initState();
+  }
+
+  void _calculatePaintSize() {
+    _customPaintSize = Size(
+      widget.gameParams.cols * _blockSize,
+      widget.gameParams.rows * _blockSize,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +52,11 @@ class _TetrisGameCanvasState extends State<TetrisGameCanvas> {
       onChange: _handleNewSize,
       child: Center(
         child: CustomPaint(
-          size: Size(
-            widget.gameParams.cols * blockSize,
-            widget.gameParams.rows * blockSize,
-          ),
+          size: _customPaintSize,
           painter: _TetrisPainter(
             widget.gameStateData,
             widget.gameParams,
-            blockSize,
+            _blockSize,
             widget.isColoredMode,
             widget.hasBorder,
           ),
@@ -52,10 +66,15 @@ class _TetrisGameCanvasState extends State<TetrisGameCanvas> {
   }
 
   void _handleNewSize(Size size) {
+    if (_widgetHeight == size.height) return;
+
     double blockWidth = size.width / widget.gameParams.cols;
     double blockHeight = size.height / widget.gameParams.rows;
-    blockSize = min(blockWidth, blockHeight);
+    _blockSize = min(blockWidth, blockHeight);
+    _calculatePaintSize();
+    _widgetHeight = size.height;
     setState(() {});
+    widget.onCanvasSizeChanged?.call(_customPaintSize);
   }
 }
 

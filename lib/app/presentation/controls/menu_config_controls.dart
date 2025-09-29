@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tetris/app/game/sounds/effect_sounds.dart';
 import 'package:tetris/app/game/tetris_game_state.dart';
+import 'package:tetris/app/presentation/const/tetris_sizes.dart';
+import 'package:tetris/app/presentation/controls/ui_button.dart';
 import 'package:tetris/app/providers/game_provider.dart';
 import 'package:tetris/app/providers/game_settings_provider.dart';
 import 'package:tetris/app/providers/sounds_controller_provider.dart';
 import 'package:tetris/const/fonts.dart';
-import 'package:tetris/app/presentation/controls/ui_button.dart';
 
-class MenuControls extends ConsumerWidget {
-  static const double controlButtonSize = 40;
-
-  const MenuControls({super.key});
+class MenuConfigControls extends ConsumerWidget {
+  const MenuConfigControls({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,48 +18,6 @@ class MenuControls extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 16,
       children: [
-        Column(
-          spacing: 4,
-          children: [
-            Text(
-              "START/PAUSE",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: mainFontFamily,
-                fontSize: 8.0,
-              ),
-            ),
-            SizedBox(
-              width: controlButtonSize,
-              height: controlButtonSize,
-              child: UiButton(
-                onPressed: () => startPause(ref),
-                color: Color(0xff69c635),
-              ),
-            ),
-          ],
-        ),
-        Column(
-          spacing: 4,
-          children: [
-            Text(
-              "RESTART",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: mainFontFamily,
-                fontSize: 8.0,
-              ),
-            ),
-            SizedBox(
-              width: controlButtonSize,
-              height: controlButtonSize,
-              child: UiButton(
-                onPressed: () => restart(ref),
-                color: Color(0xffbf3126),
-              ),
-            ),
-          ],
-        ),
         Column(
           spacing: 4,
           children: [
@@ -73,8 +30,8 @@ class MenuControls extends ConsumerWidget {
               ),
             ),
             SizedBox(
-              width: controlButtonSize,
-              height: controlButtonSize,
+              width: menuControlButtonSize,
+              height: menuControlButtonSize,
               child: UiButton(
                 onPressed: () => toggleSound(ref),
                 color: Color(0xff69c635),
@@ -94,8 +51,8 @@ class MenuControls extends ConsumerWidget {
               ),
             ),
             SizedBox(
-              width: controlButtonSize,
-              height: controlButtonSize,
+              width: menuControlButtonSize,
+              height: menuControlButtonSize,
               child: UiButton(
                 onPressed: () => toggleColoredMode(ref),
                 color: Color(0xff69c635),
