@@ -21,6 +21,7 @@ class _TetrisViewState extends ConsumerState<TetrisView>
   void initState() {
     super.initState();
     ref.read(gameControllerProvider).restart();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -34,6 +35,7 @@ class _TetrisViewState extends ConsumerState<TetrisView>
 
   @override
   void dispose() async {
+    WidgetsBinding.instance.removeObserver(this);
     await ref.read(soundsControllerProvider).dispose();
     super.dispose();
   }
