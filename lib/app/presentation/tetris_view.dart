@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tetris/app/presentation/controls/tetris_controls.dart';
+import 'package:tetris/app/presentation/tetris_portrait_view.dart';
 import 'package:tetris/app/providers/game_provider.dart';
 import 'package:tetris/app/providers/game_settings_provider.dart';
 import 'package:tetris/app/providers/sounds_controller_provider.dart';
 import 'package:tetris/app/providers/vibration_controller_provider.dart';
-import 'package:tetris/const/fonts.dart';
-import 'package:tetris/app/presentation/display/tetris_display.dart';
+import 'package:tetris/app/tetris_landscape_view.dart';
 
 class TetrisView extends ConsumerStatefulWidget {
   const TetrisView({super.key});
@@ -56,22 +55,15 @@ class _TetrisViewState extends ConsumerState<TetrisView>
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text(
-                "TETRIS",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: mainFontFamily,
-                  fontSize: 18.0,
-                ),
-              ),
-              Expanded(child: TetrisDisplay()),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TetrisControls(),
-              ),
-            ],
+          child: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              switch (orientation) {
+                case Orientation.portrait:
+                  return TetrisPortraitView();
+                case Orientation.landscape:
+                  return TetrisLandscapeView();
+              }
+            },
           ),
         ),
       ),

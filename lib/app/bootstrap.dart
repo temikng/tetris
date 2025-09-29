@@ -10,7 +10,12 @@ Future<void> bootstrap() async {
   final providerContainer = ProviderContainer();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
   await providerContainer.read(localDataSourceProvider).init();
   await providerContainer.read(soundsControllerProvider).initialize();
 
